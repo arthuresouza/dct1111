@@ -1,5 +1,5 @@
 import { AuthContext, AuthProvider } from '@/components/AuthContext';
-import { useLocalSearchParams } from 'expo-router';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 import { useRouter, useSearchParams } from 'expo-router/build/hooks';
 import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
@@ -7,17 +7,17 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 export default function Detail() {
   const router = useRouter();
   const { isAuthenticated } = useContext(AuthContext);
-
-  if (!isAuthenticated) router.navigate({ pathname: "/login" });
-
-
   const { photoUri, description } = useLocalSearchParams<{ photoUri: string, description: string }>();
 
+  if(! isAuthenticated) return <Redirect href="/login"/>;
+
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: photoUri }} style={styles.image} />
-      <Text style={styles.description}>{description}</Text>
-    </View>
+    <AuthProvider>
+      <View style={styles.container}>
+        <Image source={{ uri: photoUri }} style={styles.image} />
+        <Text style={styles.description}>{description}</Text>
+      </View>
+    </AuthProvider>
   );
 };
 

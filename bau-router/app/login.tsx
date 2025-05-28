@@ -1,5 +1,5 @@
 import { AuthContext, AuthProvider } from '@/components/AuthContext';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, } from 'react-native';
 
@@ -10,7 +10,8 @@ export default function Login() {
 
   const handleLogin = () => {
     dologin(email, password);
-  };
+    if(isAuthenticated) return(<Redirect href={{pathname: "/home"}} />);
+  };  
 
   return (
     <View style={styles.container}>

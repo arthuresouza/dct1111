@@ -12,23 +12,25 @@ interface AuthContextData {
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 // Provedor do contexto
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children}: any) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);   
     const router = useRouter();
 
     const dologin = (email: string, password: string) => {
         if (!email || !password) {
             Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+            setIsAuthenticated(false);
             return;
         }
 
-        if (email === "arthur@email.com") {
+        if (email === "teste") {
             if (password === "senha") {
                 setIsAuthenticated(true);
                 router.navigate({pathname: "/home"});
                 return;
             }
         }
+        setIsAuthenticated(false);
         Alert.alert('Erro', 'Confira os dados informados.');
     };
 
